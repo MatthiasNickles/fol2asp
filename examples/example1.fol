@@ -1,0 +1,21 @@
+r(X) :- p(X), not q.  % ASP rule (will simply be copied to the output)
+
+d(10).  % a fact 
+d(20).
+
+(q | w) <- (not z | r(a) & FORALL A, B, d(A), p(B): z(A) | r(B)).  % a FOL formula. 
+% In FORALL ..., d(A) and p(B) specify the domains of variables A and B.
+% F2LP equivalent to previous formula (requires #domain specifications d(A) and p(B)): 
+% (q | w) <- (not z | (r(a) & ![A, B]: (z(A) | r(B)))).
+
+(not x | y & z) -> u & v.  % another FOL formula. 
+% Observe that precedence rules are akin those in Boolean expressions and partially 
+% differ from F2LP. The above corresponds to ((not x) | (y & z)) -> (u & v).
+
+% Observe that "not" denotes default negation. Use "-" for strong negation and "!" for negation 
+% which is default by default but denotes strong negation with switch --stringexcl
+
+0{u;v;w}3.  % ASP choice rule (copied to output)
+
+% Using Clingo version >=4, you get two answer sets for the fol2asp output: 
+% { d(10) d(20) u v q } and { d(10) d(20) u v w }

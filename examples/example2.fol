@@ -1,0 +1,11 @@
+% Based on http://reasoning.eas.asu.edu/f2lp/index_files/Page403.html 
+% Call with switch --gringo3 to use with Clingo 3
+
+object(a;b;c). 
+p(a).
+r(c).
+
+q(b) <- EXIST X, object(X):(p(X) & r(X)).
+
+r(X) :- p(X). % rule in Lparse/Gringo syntax
+
