@@ -19,7 +19,7 @@ to the ASP features used).
 
 fol2asp is inspired by [F2LP](http://reasoning.eas.asu.edu/f2lp/index.html) and uses almost the same logic conversion rules (see references [1-3] below). However,
 besides running on the Java Virtual Machine (JVM), fol2asp provides better compatibility with recent versions 
-of Gringo/Clingo compared to F2LP 1.3 and several additional features (see under Sect. [Use](#use)). Input syntax is similar but not identical (see next section).
+of Gringo/Clingo compared to F2LP 1.3 and several additional features (see under Sect. [Usage](#usage)). Input syntax is similar but not identical (see next section).
   
 References:
 - [1] Joohyung Lee, Ravi Palla (‎2012): "Reformulating the Situation Calculus and the Event Calculus in the General
