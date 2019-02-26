@@ -34,7 +34,7 @@ References:
 
 #### Installation and call ###
 
-fol2asp is written in Scala and runs on the JVM (JRE/JDK 8 or higher). A ready-to-run JAR file can be found under "Releases". 
+fol2asp is written in Scala and runs on the JVM (JRE/JDK 8 or higher). A ready-to-run JAR file can be found under [Releases](https://github.com/MatthiasNickles/fol2asp/releases). 
 
 To build from sources, use, e.g., [sbt](https://www.scala-sbt.org/) and sbt plugin assembly (just install sbt and enter "sbt assembly" on the commandline), 
 or, e.g., Maven (since there are no dependencies besides the Java and Scala runtime libraries, this should be straightforward). 
