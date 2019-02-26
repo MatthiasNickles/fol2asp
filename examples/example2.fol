@@ -1,4 +1,4 @@
-% Based on http://reasoning.eas.asu.edu/f2lp/index_files/Page403.html 
+% Example based on http://reasoning.eas.asu.edu/f2lp/index_files/Page403.html 
 % Call with switch --gringo3 to use with Clingo 3
 
 object(a;b;c). 
