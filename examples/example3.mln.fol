@@ -5,8 +5,8 @@ r(a;b).
 #domain d(X;Y).  // defines the domain of variables X and Y
 #domain r(Z).
 
-p(X,Y), q(Z) => s(X,Z) v p(20,Y).  // MLN-style rule
-EXIST X,Y,Z p(X,Y) v !p(Y,X) v q(Z)  // MLN-style clause
+p(X,Y), q(Z) => s(X,Z) v p(20,Y).  // MLN-style hard rule 
+EXIST X,Y,Z p(X,Y) v !p(Y,X) v q(Z)  // MLN-style hard clause
 
-% Note that by default "!" denotes default negation; use switch --strongexcl to 
-% change the meaning of "!" to strong (classical) negation.
+/* Note that by default "!" denotes default negation; use switch --strongexcl to 
+ change the meaning of "!" to strong (classical) negation. */
