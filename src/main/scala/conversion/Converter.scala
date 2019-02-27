@@ -19,6 +19,8 @@
 
 package conversion
 
+import java.util.regex.Pattern
+
 import commandline.fol2asp
 
 import scala.collection.mutable
@@ -203,7 +205,7 @@ object Converter {
 
       val stringLitPat = "'([^\\\\']+|\\\\([btnfr\"'\\\\]|[0-3]?[0-7]{1,2}|u[0-9a-fA-F]{4}))*'|\"([^\\\\\"]+|\\\\([btnfr\"'\\\\]|[0-3]?[0-7]{1,2}|u[0-9a-fA-F]{4}))*\"".r
 
-      val folStrS = stringLitPat.replaceAllIn(folStrR, _ match {
+      var folStrS = stringLitPat.replaceAllIn(folStrR, _ match {
 
         case c: Regex.Match => {
 
@@ -215,42 +217,68 @@ object Converter {
 
       })
 
-      val commentPat = "(%.*)|((?s)%\\*.*?\\*%)|(//.*)|((?s)/\\*.*?\\*/)".r
+      val commentPat1 = "(?s)(%\\*.*?\\*%)".r  // we can't put all comment patterns into the same regex because (?s) apparently stops working then (?)
 
-      val r2 = commentPat.replaceAllIn(folStrS, _ match {
+      val commentPat2 = "%.*".r
 
-        case c: Regex.Match => {
+      val commentPat3 = "(?s)/\\*.*?\\*/".r
 
-          if (!omitcomments) {
+      val commentPat4 = "//.*".r
 
-            val lineNo = c.before.toString.count(_ == '.') // roughly the position where we will reinsert the comment (not accurate)
+      def replaceComment(c: Regex.Match) = {
 
-            val commentsInLine = comments.getOrElseUpdate(lineNo, ArrayBuffer[String]())
+        if (!omitcomments) {
 
-            val cStr = c.toString.trim
+          val lineNo = c.before.toString.count(_ == '.') // roughly the position where we will reinsert the comment (not accurate)
 
-            val cStrASP = if (cStr.startsWith("//"))
-              "%" + cStr.drop(2)
-            else if (cStr.startsWith("/*"))
-              "%*" + cStr.drop(2).dropRight(2) + "*%"
-            else
-              cStr
+          val commentsInLine = comments.getOrElseUpdate(lineNo, ArrayBuffer[String]())
 
-            commentsInLine.append(cStrASP)
+          val cStr = c.toString.trim
 
-            comments.put(lineNo, commentsInLine)
+          val cStrASP = if (cStr.startsWith("//"))
+            "%" + cStr.drop(2)
+          else if (cStr.startsWith("/*"))
+            "%*" + cStr.drop(2).dropRight(2) + "*%"
+          else
+            cStr
 
-            commentMaxFormulaNo = commentMaxFormulaNo.max(lineNo)
+          commentsInLine.append(cStrASP)
 
-          }
+          comments.put(lineNo, commentsInLine)
 
-          ""
+          commentMaxFormulaNo = commentMaxFormulaNo.max(lineNo)
 
         }
 
+        ""
+
+      }
+
+      val r2 = commentPat1.replaceAllIn(folStrS, _ match {
+
+        case c: Regex.Match => replaceComment(c)
+
       })
 
-      r2
+      val r3 = commentPat2.replaceAllIn(r2, _ match {
+
+        case c: Regex.Match => replaceComment(c)
+
+      })
+
+      val r4 = commentPat3.replaceAllIn(r3, _ match {
+
+        case c: Regex.Match => replaceComment(c)
+
+      })
+
+      val r5 = commentPat4.replaceAllIn(r4, _ match {
+
+        case c: Regex.Match => replaceComment(c)
+
+      })
+
+      r5
 
     }
 

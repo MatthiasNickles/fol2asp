@@ -39,7 +39,7 @@ object fol2asp {
 
   val debug = false
 
-  val version = "0.4"
+  val version = "0.4.1"
 
   val versionAndLicenseText = "fol2asp " + version + "\nCopyright (c) 2016-2019 Matthias Nickles\nLicense: https://www.apache.org/licenses/LICENSE-2.0\n"
 
@@ -54,12 +54,12 @@ object fol2asp {
   val helpText =
     versionAndLicenseText +
       """
-  fol2asp translates an enconding consisting of First Order Logic (FOL)
-  formulas (under stable model semantics) into an Answer Set program (a
-  logic program). The input can also comprise answer set rules or facts -
-  these are copied unmodified to the output. fol2asp also has preliminary
+  fol2asp translates encondings consisting of First Order Logic (FOL)
+  formulas (under stable model semantics) into Answer Set programs (logic
+  programs). The input can also comprise answer set rules or facts - these
+  are copied unmodified to the output. fol2asp also has preliminary
   support for the translation of Markov Logic Network (MLN)-style syntax
-  to ASP syntax.
+  for hard rules to ASP syntax.
 
   Command line usage:
 
@@ -118,14 +118,14 @@ object fol2asp {
 
   With --mlnrules, formulas can also have the following syntax:
     p1, p2, ... => q1 v q2 v ...
-    (MLN-style rule. "," or "^" denotes conjunction, " v " is disjunction
+    (MLN-style hard rule. "," or "^" denotes conjunction, " v " is disjunction
     (observe the required spaces around "v"), the p_i and q_i are atoms.
     Variables are considered universally quantified ASP variables.)
     EXIST X,Y,... p1, p2, ... => q1 v q2 v ...
     (as above but with existentially quantified variables X,Y,...)
-    l1 v l2 v l3 v ... (MLN-style clause. Use !p for negative literals; note
-    that the meaning of !p is, by default, default negation, can be switched
-    to classical negation using --strongexcl.
+    l1 v l2 v l3 v ... (MLN-style hard clause. Use !p for negative literals;
+    note that the meaning of !p is, by default, default negation, can be
+    switched to classical negation using --strongexcl.
     Observe the required spaces around "v".
     EXIST X,Y,... l1 v l2 v l3 v ... (as above but with existentially
     quantified variables X,Y,...)
