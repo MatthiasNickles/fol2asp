@@ -17,7 +17,7 @@ The resulting answer set program can be grounded and solved
 using, e.g., [Clingo](https://potassco.org/clingo/) or [Lparse/Smodels](http://www.tcs.hut.fi/Software/smodels/) (depending
 to the ASP features used).
 
-fol2asp is inspired by [F2LP](http://reasoning.eas.asu.edu/f2lp/index.html) and uses almost the same logic conversion rules (see references [1-3] below). However,
+fol2asp is inspired by [F2LP](http://reasoning.eas.asu.edu/f2lp/index.html) and uses almost the same logic conversion rules (see references below). However,
 besides running on the Java Virtual Machine (JVM), fol2asp provides better compatibility with recent versions 
 of Gringo/Clingo compared to F2LP 1.3 and several additional features (see under Sect. [Usage](#usage)). Input syntax is similar but not identical (see next section).
   
@@ -36,14 +36,14 @@ References:
 
 fol2asp is written in Scala and runs on the JVM (JRE/JDK 8 or higher). A ready-to-run JAR file can be found under [Releases](https://github.com/MatthiasNickles/fol2asp/releases). 
 
-Executable binaries for Linux, Mac or Windows can probably be generated using GraalVM, but I haven't tried that yet.
+Executable binaries for Linux, MacOS or Windows can probably be generated using GraalVM, but I haven't tried that yet.
 
 To build from sources, use, e.g., [sbt](https://www.scala-sbt.org/) and sbt plugin assembly (just install sbt and enter "sbt assembly" on the commandline), 
 or, e.g., Maven (since there are no dependencies besides the Scala standard library, this should be straightforward). 
 
 Run fol2asp like this:
 
-    java -jar fol2asp_2.12-0.4.jar examples/example1.fol
+    java -jar fol2asp.jar examples/example1.fol
     
 The list of available commandline parameters is shown with `--help` and in more detail in the following section.    
     
@@ -59,9 +59,9 @@ If no input file(s) `<file1> ...` are specified, input is read from STDIN
 
 `--help|-h` prints this text and exits
 
-`--prefixnp p` prepends p to newly introduced predicate names. 
+`--prefixnp p` prepends p to newly introduced predicate names
 
-`--prefixnv p` prepends p to newly introduced variable names. 
+`--prefixnv p` prepends p to newly introduced variable names 
 
 `--mlnrules` enables support for MLN-style clause and rule syntax (see below)
 
@@ -107,9 +107,8 @@ Parentheses can be used to change precedences or to make precedence explicit.
 All formulas must end with a period mark (full stop), e.g., 
 `p(a,9) & FORALL A, number(A): not even(A).`
 
-Only integer and "string" literals are allowed in term positions.
-Comments have the form `%...` or `//...` (single line comment) and `%*...*%` or `/*...*/`
-(multiline comment).
+Integers and "strings" are allowed in term positions. Comments have the form 
+`%...` or `//...` (single line comment) and `%*...*%` or `/*...*/` (multiline).
 
 Any Clingo script (e.g., Python or Lua) needs to be placed at the beginning
 of the input. Only one script is allowed. The script is simply copied to
@@ -138,9 +137,9 @@ Variables are considered universally quantified ASP variables.)
 
 `l1 v l2 v l3 v ...`
 
-(MLN-style clause without weight. Use `!p` for negative literals; note
-that the meaning of `!p` is, by default, default negation, can be switched
-to classical negation using `--strongexcl`.
+(MLN-style clause without weight. The `li` are literals. Use `!p` for negative 
+literals; note that the meaning of `!p` is, by default, default negation, can 
+be switched to classical negation using `--strongexcl`.
 Observe the required spaces around `v`.
 
 `EXIST X,Y,... l1 v l2 v l3 v ...` 
@@ -166,10 +165,9 @@ Note (3) that MLN-style formulas require that variable domains are specified
   
   Example for MLN-style input:
       
-    #domain d(X;Y).  // "predicate schema"    
     d(10;20;30;40).  // domain d
-    #domain r(Z).    
-    EXIST X,Y,Z p(X) v !p(Y) v q(Y,Z).  // MLN-style hard clause
+    #domain d(X;Y).  // "predicate schema". X and Y are variables.    
+    EXIST X,Y p(X) v !p(Y) v q(Y,X).  // MLN-style hard clause
 
 Symbol prefixes `__aux_`, `__strlit_`, `_npred_` and `_NVAR_`
 are reserved by default and should not be used in any symbols in the input.
