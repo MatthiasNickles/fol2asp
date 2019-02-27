@@ -11,7 +11,7 @@
 
 name := "fol2asp"
 
-version := "0.4"
+version := "0.4.1"
 
 scalaVersion := "2.12.8"
 
