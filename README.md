@@ -8,12 +8,12 @@
 
 #### Introduction ####
 
-fol2asp translates an enconding consisting of First Order Logic (FOL)
-formulas (under stable model semantics) into an answer set program (a
-logic program). The input can also comprise answer set rules or facts -
-these are copied unmodified to the output. fol2asp also has preliminary
-support for the translation of Markov Logic Network (MLN)-style syntax
-to ASP syntax. The resulting answer set program can then be grounded and solved 
+fol2asp translates encondings consisting of First-Order Logic (FOL) formulas (under stable model semantics) 
+into answer set programs (logic programs). The input can also comprise answer set rules - these are 
+copied unmodified to the output. Besides supporting the usual FOL syntax, fol2asp can also translate 
+Markov Logic Network (MLN)-style hard rules to ASP syntax. 
+
+The resulting answer set program can be grounded and solved 
 using, e.g., [Clingo](https://potassco.org/clingo/) or [Lparse/Smodels](http://www.tcs.hut.fi/Software/smodels/) (depending
 to the ASP features used).
 
@@ -36,15 +36,16 @@ References:
 
 fol2asp is written in Scala and runs on the JVM (JRE/JDK 8 or higher). A ready-to-run JAR file can be found under [Releases](https://github.com/MatthiasNickles/fol2asp/releases). 
 
-To build from sources, use, e.g., [sbt](https://www.scala-sbt.org/) and sbt plugin assembly (just install sbt and enter "sbt assembly" on the commandline), 
-or, e.g., Maven (since there are no dependencies besides the Java and Scala runtime libraries, this should be straightforward). 
-Executable binaries can probably be generated using GraalVM, but I haven't tried that yet.
+Executable binaries for Linux, Mac or Windows can probably be generated using GraalVM, but I haven't tried that yet.
 
-Run, e.g., like this:
+To build from sources, use, e.g., [sbt](https://www.scala-sbt.org/) and sbt plugin assembly (just install sbt and enter "sbt assembly" on the commandline), 
+or, e.g., Maven (since there are no dependencies besides the Scala standard library, this should be straightforward). 
+
+Run fol2asp like this:
 
     java -jar fol2asp_2.12-0.4.jar examples/example1.fol
     
-The list of available commandline parameters is shown with --help and in more detail in the following section.    
+The list of available commandline parameters is shown with `--help` and in more detail in the following section.    
     
 #### Usage ####
 
@@ -52,19 +53,19 @@ Command line usage:
 
     java -jar fol2asp.jar [<file1> ... <fileN>] [--mlnrules] [--prefixnp p] [--prefixnv p] [--gringo3] [--retainfol] [--omitcomments] [--version|-v] [--help|-h]
 
-If input files `<file1> ...` are omitted, input is read from STDIN 
+If no input file(s) `<file1> ...` are specified, input is read from STDIN 
 
 `--version|-v` prints version and license information, then exits
 
 `--help|-h` prints this text and exits
 
-`--prefixnp p` prepends p to newly introduced predicate names. Max. length 32.
+`--prefixnp p` prepends p to newly introduced predicate names. 
 
-`--prefixnv p` prepends p to newly introduced variable names. Max. length 32.
+`--prefixnv p` prepends p to newly introduced variable names. 
 
 `--mlnrules` enables support for MLN-style clause and rule syntax (see below)
 
-`--strongexcl` changes the meaning of operator ! from default negation to
+`--strongexcl` changes the meaning of operator `!` from default negation to
 strong negation
 
 `--retainfol` copies the original FOL formulas to the ouput as comments in
@@ -103,7 +104,8 @@ specify the domains (ranges) of variables `X`, `Y` and `Z`, and `f` is a subform
 `-f`        strong (classical) negation
 
 Parentheses can be used to change precedences or to make precedence explicit.
-All formulas must end with a dot (e.g., `FORALL A, number(A): even(A).`)
+All formulas must end with a period mark (full stop), e.g., 
+`p(a,9) & FORALL A, number(A): not even(A).`
 
 Only integer and "string" literals are allowed in term positions.
 Comments have the form `%...` or `//...` (single line comment) and `%*...*%` or `/*...*/`
@@ -120,11 +122,13 @@ bound to ranges somewhere else (e.g., using certain atoms, or `#domain`
 declarations for older gringo versions) is supported too.
 
 If switch `--mlnrules` is provided, formulas can also have the following syntax
-(in addition to FOL formulas using the syntax above and ASP rules):
+(in addition to FOL formulas using the syntax above and ASP rules). fol2asp
+does not require such formulas to end with a period (.) but recall that 
+in MLN, the period is used to indicate infinite weight (hard rule).
 
 `p1, p2, ... => q1 v q2 v ...`
 
-(MLN-style rule. `,` or `^` denotes conjunction, ` v ` is disjunction
+(MLN-style rule without weight. `,` or `^` denotes conjunction, ` v ` is disjunction
 (observe that spaces are required around `v`), the `pi` and `qi` are atoms.
 Variables are considered universally quantified ASP variables.)
 
@@ -134,7 +138,7 @@ Variables are considered universally quantified ASP variables.)
 
 `l1 v l2 v l3 v ...`
 
-(MLN-style clause. Use `!p` for negative literals; note
+(MLN-style clause without weight. Use `!p` for negative literals; note
 that the meaning of `!p` is, by default, default negation, can be switched
 to classical negation using `--strongexcl`.
 Observe the required spaces around `v`.
@@ -147,7 +151,7 @@ Note (1) that even in MLN-style formulas the first letter in a variable
   case letters, as required by most ASP grounders. The first letter in
   predicates should be lower case.
 
-Note (2) that using MLN-style syntax for rules and clauses does not give
+Note (2) that using MLN-style syntax for hard rules and clauses does not give
   these formulas MLN semantics; they just use different symbols for
   connectives compared to our default syntax. Still, they might make the
   translation of MLN encodings easier.
@@ -157,13 +161,15 @@ Note (3) that MLN-style formulas require that variable domains are specified
   using `#domain` declarations. fol2asp will generate the correct "inline"
   bindings (using atoms in rule bodies) from these. If flag `--gringo3`
   is not specified, the `#domain` declarations do not appear in the resulting
-  logic program (useful with Gringo/Clingo version 4 and higher).
+  logic program (useful with current Clingo/Gringo versions as these do not
+  understand `#domain` declarations).
   
   Example for MLN-style input:
       
     #domain d(X;Y).  // "predicate schema"    
+    d(10;20;30;40).  // domain d
     #domain r(Z).    
-    EXIST X,Y,Z p(X) v !p(Y) v q(Z)  // MLN-style clause
+    EXIST X,Y,Z p(X) v !p(Y) v q(Y,Z).  // MLN-style hard clause
 
 Symbol prefixes `__aux_`, `__strlit_`, `_npred_` and `_NVAR_`
 are reserved by default and should not be used in any symbols in the input.
