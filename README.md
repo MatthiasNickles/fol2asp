@@ -24,13 +24,13 @@ of Gringo/Clingo compared to F2LP 1.3 and several additional features (see under
 References:
 - [1] Joohyung Lee, Ravi Palla (‎2012): "Reformulating the Situation Calculus and the Event Calculus in the General
        Theory of Stable Models and in Answer Set Programming". In Journal of Artificial Intelligence Research 43, 571-620.
-- [2] Joohyung Lee, Ravi Palla (2009) System f2lp – Computing Answer Sets of First-Order Formulas. In: Erdem E., Lin F., Schaub T. (Eds) Logic Programming 
+- [2] Joohyung Lee, Ravi Palla (2009) "System f2lp – Computing Answer Sets of First-Order Formulas". In: Erdem E., Lin F., Schaub T. (Eds) Logic Programming 
        and Nonmonotonic Reasoning (LPNMR 2009). Lecture Notes in Computer Science (LNCS), vol 5753. Springer.
 - [3] Pedro Cabalar, David Pearce, Agustin Valverde (‎2005): "Reducing Propositional Theories in Equilibrium Logic to Logic Programs". 
        In Bento C., Cardoso A., Dias G. (eds) Progress in Artificial Intelligence. EPIA 2005. Lecture Notes in Computer Science, vol 3808. Springer.  
        (for NNF, rules L1-L5, R1-R5).        
-       [3] references [4] Vladimir Lifschitz, Lappoon R. Tang, Hudson Turner (1999): "Nested Expressions in Logic Programs". In Annals of Mathematics and Artificial Intelligence (1999) 25: 369  
-       for some of the transformation rules.  
+       [3] references [4] for some of the transformation rules.  
+- [4] Vladimir Lifschitz, Lappoon R. Tang, Hudson Turner (1999): "Nested Expressions in Logic Programs". In Annals of Mathematics and Artificial Intelligence (1999) 25: 369.
 
 #### Installation and call ###
 
@@ -57,13 +57,13 @@ If no input file(s) `<file1> ...` are specified, input is read from STDIN
 
 `--version|-v` prints version and license information, then exits
 
-`--help|-h` prints this text and exits
+`--help|-h` prints a help text and exits
 
 `--prefixnp p` prepends p to newly introduced predicate names
 
 `--prefixnv p` prepends p to newly introduced variable names 
 
-`--mlnrules` enables support for MLN-style clause and rule syntax (see below)
+`--mlnrules` enables support for MLN-style unweighted clause and rule syntax (see below)
 
 `--strongexcl` changes the meaning of operator `!` from default negation to
 strong negation
@@ -103,6 +103,10 @@ specify the domains (ranges) of variables `X`, `Y` and `Z`, and `f` is a subform
 
 `-f`        strong (classical) negation
 
+Quantifier syntax `FORALL X,Y,Z:` and `EXIST X,Y,Z:` where the variables are
+bound to ranges somewhere else (e.g., using certain atoms, or `#domain`
+declarations for older gringo versions) is supported too.
+
 Parentheses can be used to change precedences or to make precedence explicit.
 All formulas must end with a period mark (full stop), e.g., 
 `p(a,9) & FORALL A, number(A): not even(A).`
@@ -115,10 +119,6 @@ of the input. Only one script is allowed. The script is simply copied to
 the output (unchecked).
 
 ASP and FOL syntax cannot be mixed within the same formula or rule.
-
-Quantifier syntax `FORALL X,Y,Z:` and `EXIST X,Y,Z:` where the variables are
-bound to ranges somewhere else (e.g., using certain atoms, or `#domain`
-declarations for older gringo versions) is supported too.
 
 If switch `--mlnrules` is provided, formulas can also have the following syntax
 (in addition to FOL formulas using the syntax above and ASP rules). fol2asp
@@ -169,11 +169,13 @@ Note (3) that MLN-style formulas require that variable domains are specified
     #domain d(X;Y).  // "predicate schema". X and Y are variables.    
     EXIST X,Y p(X) v !p(Y) v q(Y,X).  // MLN-style hard clause
 
-Symbol prefixes `__aux_`, `__strlit_`, `_npred_` and `_NVAR_`
-are reserved by default and should not be used in any symbols in the input.
-However, it is possible to define different prefixes using console arguments
-`--prefixnp` and `--prefixnv` (see above). fol2asp might use and emit definitions for 
-predicates `true/0` and `false/0` (truth and falsity).
+Symbol prefixes `__aux_`, `__strlit_`, `_npred_` (fresh predicate) and 
+`_NVAR_` (fresh variable) are reserved by default and should not be used 
+in any symbols in the input. However, it is possible to define different 
+prefixes for fresh predicates and variables using console arguments 
+`--prefixnp` and `--prefixnv`. 
+fol2asp might use and emit definitions for predicates `true/0` and 
+`false/0` (truth and falsity).
 
 Observe that the syntax supported by fol2asp is similar but not identical to
 that used by software F2LP. E.g., precedences of connectives are different
