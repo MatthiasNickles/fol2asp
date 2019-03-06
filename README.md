@@ -41,9 +41,9 @@ Executable binaries for Linux, MacOS or Windows can probably be generated using 
 To build from sources, use, e.g., [sbt](https://www.scala-sbt.org/) and sbt plugin assembly (just install sbt and enter "sbt assembly" on the commandline), 
 or, e.g., Maven (since there are no dependencies besides the Scala standard library, this should be straightforward). 
 
-Run fol2asp like this:
+Run fol2asp like this. The result is written to file example1.lp:
 
-    java -jar fol2asp.jar examples/example1.fol
+    java -jar fol2asp.jar examples/example1.fol > example1.lp
     
 The list of available commandline parameters is shown with `--help` and in more detail in the following section.    
     
