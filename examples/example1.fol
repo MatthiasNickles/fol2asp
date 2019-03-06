@@ -5,8 +5,8 @@ d(20).
 
 (q | w) <- (not z(10,n) | r(a) & FORALL A, B, d(A), p(B): z(A,m) | r(B)).  % a FOL formula. 
 % In FORALL ..., d(A) and p(B) specify the domains of variables A and B.
-% F2LP equivalent to previous formula (requires #domain specifications d(A) and p(B)): 
-% (q | w) <- (not z | (r(a) & ![A, B]: (z(A) | r(B)))).
+% F2LP equivalent to previous formula (additionally requires #domain specifications d(A) and p(B)): 
+% (q | w) <- (not z(10,n) | (r(a) & ![A, B]: (z(A,m) | r(B)))).
 
 (not x | ff(1,2,3) & z) -> u & v.  % another FOL formula. 
 % Observe that precedence rules are akin those in Boolean expressions and partially 
