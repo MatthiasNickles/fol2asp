@@ -8,7 +8,7 @@
 
 #### Introduction ####
 
-fol2asp translates encondings consisting of First-Order Logic (FOL) formulas (under stable model semantics) 
+fol2asp translates encondings consisting of formulas in First-Order Logic (FOL) syntax (under stable model semantics) 
 into answer set programs (logic programs). The input can also comprise answer set rules - these are 
 copied unmodified to the output. Besides supporting the usual FOL syntax, fol2asp can also translate 
 Markov Logic Network (MLN)-style hard rules to ASP syntax. 
@@ -107,18 +107,26 @@ Quantifier syntax `FORALL X,Y,Z:` and `EXIST X,Y,Z:` where the variables are
 bound to ranges somewhere else (e.g., using certain atoms, or `#domain`
 declarations for older gringo versions) is supported too.
 
+Variable domains need to be finite.
+
 Parentheses can be used to change precedences or to make precedence explicit.
 All formulas must end with a period mark (full stop), e.g., 
 `p(a,9) & FORALL A, number(A): not even(A).`
 
-Integers and "strings" are allowed in term positions. Comments have the form 
-`%...` or `//...` (single line comment) and `%*...*%` or `/*...*/` (multiline).
+Integers and `"strings"` are allowed in term positions. Terms have a syntax 
+as expected by common ASP grounders, e.g., `foo(fun(a,X),b)` is a valid (non-ground) 
+term if the target grounder is gringo/clingo. However, (tuples) are currently 
+not supported in FOL formulas (but in ASP rules).
+
+Comments have the form `%...` or `//...` (single line comment) and `%*...*%` or `/*...*/` (multiline).
 
 Any Clingo script (e.g., Python or Lua) needs to be placed at the beginning
 of the input. Only one script is allowed. The script is simply copied to
 the output (unchecked).
 
-ASP and FOL syntax cannot be mixed within the same formula or rule.
+ASP and FOL syntax should not be mixed within the same formula or rule (though 
+fol2asp does not check that and keeps unrecognized formula parts unmodified 
+in the output).
 
 If switch `--mlnrules` is provided, formulas can also have the following syntax
 (in addition to FOL formulas using the syntax above and ASP rules). fol2asp
