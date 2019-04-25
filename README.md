@@ -9,11 +9,11 @@
 #### Introduction ####
 
 fol2asp translates encondings consisting of formulas in First-Order Logic (FOL) syntax (under stable model semantics) 
-into Answer Set programs (logic programs). The input can also comprise answer set rules - these are 
+into answer set programs (logic programs). The input can also comprise answer set rules - these are 
 copied unmodified to the output. Besides supporting the usual FOL syntax, fol2asp can also translate 
 Markov Logic Network (MLN)-style hard rules to ASP syntax. 
 
-The resulting Answer Set program can be grounded and solved 
+The resulting answer set program can be grounded and solved 
 using, e.g., [Clingo](https://potassco.org/clingo/) or [Lparse/Smodels](http://www.tcs.hut.fi/Software/smodels/) (depending
 to the ASP features used).
 
@@ -29,7 +29,7 @@ References:
 - [3] Pedro Cabalar, David Pearce, Agustin Valverde (‎2005): "Reducing Propositional Theories in Equilibrium Logic to Logic Programs". 
        In Bento C., Cardoso A., Dias G. (eds) Progress in Artificial Intelligence. EPIA 2005. Lecture Notes in Computer Science, vol 3808. Springer.  
        (for NNF, rules L1-L5, R1-R5).        
-       [3] references [4] for some of the transformation rules.  
+       [3] references [4] for some of the transformation rules:  
 - [4] Vladimir Lifschitz, Lappoon R. Tang, Hudson Turner (1999): "Nested Expressions in Logic Programs". In Annals of Mathematics and Artificial Intelligence (1999) 25: 369.
 
 #### Installation and call ###
