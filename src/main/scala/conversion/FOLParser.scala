@@ -303,11 +303,11 @@ object HWFOLParser {
 
             val a2 = fca.substring(equivIndex + 1)
 
-            val s1 = parseI(a1, additionalTopLevelSentences, config)
+            val s1: Sentence = parseI(a1, additionalTopLevelSentences, config)
 
-            val s2 = parseI(a2, additionalTopLevelSentences, config)
+            val s2: Sentence = parseI(a2, additionalTopLevelSentences, config)
 
-            Conjunction(Conditional(s1, s2) :: Conditional(s2, s1) :: Nil)
+            Conjunction(Conditional(s1, s2) :: Conditional(s2.deepClone, s1.deepClone) :: Nil)
 
           } else {
 

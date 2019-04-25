@@ -39,7 +39,7 @@ object fol2asp {
 
   val debug = false
 
-  val version = "0.4.1"
+  val version = "0.4.3"
 
   val versionAndLicenseText = "fol2asp " + version + "\nCopyright (c) 2016-2019 Matthias Nickles\nLicense: https://www.apache.org/licenses/LICENSE-2.0\n"
 
@@ -54,8 +54,8 @@ object fol2asp {
   val helpText =
     versionAndLicenseText +
       """
-  fol2asp translates encondings consisting of First Order Logic (FOL)
-  formulas (under stable model semantics) into Answer Set programs (logic
+  fol2asp translates encondings consisting of formulas in First-Order Logic
+  (FOL) syntax (under stable model semantics) into Answer Set programs (logic
   programs). The input can also comprise answer set rules or facts - these
   are copied unmodified to the output. fol2asp also has preliminary
   support for the translation of Markov Logic Network (MLN)-style syntax
@@ -103,18 +103,28 @@ object fol2asp {
 
   Parentheses can be used to change precedences or to make precedence explicit.
   All formulas must end with a dot (e.g., "FORALL A, number(A): even(A).")
-  Only integer and "string" literals are allowed in term positions.
+
+  Integer and "string" literals are allowed in term positions. Terms have
+  a syntax as expected by common ASP grounders, e.g., foo(fun(a,X),b) is a
+  valid (non-ground) term if the target grounder is gringo/clingo. However,
+  (tuples) are currently not supported in FOL formulas (but in ASP rules).
+
   Comments have the form %... or //... (single line) and %*...*% or /*...*/
   (multiline).
+
   Any Clingo script (e.g., Python or Lua) needs to be placed at the beginning
   of the input. Only one script is allowed. The script is simply copied to
   the output (unchecked).
 
-  ASP and FOL syntax cannot be mixed within the same formula or rule.
+  ASP and FOL syntax should not be mixed within the same formula or rule
+  (though fol2asp does not check that and keeps unrecognized formula parts
+  unmodified in the output).
 
   Quantifier syntax "FORALL X,Y,Z:" and "EXIST X,Y,Z:" where the variables are
   bound to ranges somewhere else (e.g., using certain atoms, or #domain
   declarations for older gringo versions) is supported too.
+
+  Variable domains need to be finite.
 
   With --mlnrules, formulas can also have the following syntax:
     p1, p2, ... => q1 v q2 v ...

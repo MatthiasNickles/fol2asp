@@ -19,8 +19,6 @@
 
 package conversion
 
-import java.util.regex.Pattern
-
 import commandline.fol2asp
 
 import scala.collection.mutable
@@ -44,7 +42,7 @@ object Converter {
 
   var newPredCounter: java.util.concurrent.atomic.AtomicLong = new java.util.concurrent.atomic.AtomicLong(1l)
 
-  var genTrueFalseRules = false
+  var genTrueFalseRules = false // TODO: needs to be resetted after each run of the converter
 
   @inline def mightBeFOL(f: String): Boolean = {
 
@@ -611,7 +609,8 @@ object Converter {
 
       if (fol2asp.debug && isXPos) println("Quantifier '" + theOneWithPath._1 + "' is positive in '" + fol1)
 
-      if (fol2asp.debug && isXstrictlyPos) println("Quantifier '" + theOneWithPath._1 + "' is strictly-positive in '" + fol1)
+      if (fol2asp.debug && isXstrictlyPos)
+        println("Quantifier '" + theOneWithPath._1 + "' is strictly-positive in '" + fol1)
 
       if (fol2asp.debug && isXNeg) println("Quantifier '" + theOneWithPath._1 + "' is negative in '" + fol1)
 
@@ -741,7 +740,7 @@ object Converter {
 
       val newFOL = theOneWithPath._1 match {
 
-        // for performance reasons, we mutate the AST in-place:
+        // for performance reasons we mutate the AST in-place:
 
         case ExistentialQuantifier(variable: Variable, sentence: Sentence) if isXNeg => updateF_A(variable)
 
@@ -1520,7 +1519,7 @@ object Converter {
 
       val c = cache.get(key)
 
-      if (c.isDefined) {
+      if (c.isDefined ) {
 
         c.get
 
