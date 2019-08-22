@@ -11,7 +11,7 @@
 fol2asp translates encondings consisting of formulas in First-Order Logic (FOL) syntax (under stable model semantics) 
 into answer set programs (logic programs). The input can also comprise answer set rules - these are 
 copied unmodified to the output. Besides supporting the usual FOL syntax, fol2asp can also translate 
-Markov Logic Network (MLN)-style hard rules to ASP syntax. 
+Markov Logic Network (MLN)-style _hard_ (non-probabilistic) rules into ASP syntax. 
 
 The resulting answer set program can be grounded and solved 
 using, e.g., [Clingo](https://potassco.org/clingo/) or [Lparse/Smodels](http://www.tcs.hut.fi/Software/smodels/) (depending
@@ -137,7 +137,7 @@ in MLN, the period is used to indicate infinite weight (hard rule).
 
 (MLN-style rule without weight. `,` or `^` denotes conjunction, ` v ` is disjunction
 (observe that spaces are required around `v`), the `pi` and `qi` are atoms.
-Variables are considered universally quantified ASP variables.)
+Any free variables are here considered to be universally quantified ASP variables.)
 
 `EXIST X,Y,... p1, p2, ... => q1 v q2 v ...`
 
