@@ -9,7 +9,7 @@
 #### Introduction ####
 
 fol2asp translates encondings consisting of formulas in First-Order Logic (FOL) syntax (under stable model semantics) 
-into answer set programs (logic programs). The input can also comprise answer set rules - these are 
+into Answer Set Programs (Logic Programs). The input can also comprise answer set rules - these are 
 copied unmodified to the output. Besides supporting the usual FOL syntax, fol2asp can also translate 
 Markov Logic Network (MLN)-style _hard_ (non-probabilistic) rules into ASP syntax. 
 
