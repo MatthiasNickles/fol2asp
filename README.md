@@ -217,3 +217,5 @@ Feedback and bug reports are welcome.
 Copyright (c) 2016-2019 by Matthias Nickles
 
 License: [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+
+fol2asp is open source research software.
